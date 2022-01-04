@@ -11,6 +11,8 @@
 /*
  * This code is for zvm EL2 mode init.
  */
+#include <zephyr/const.h>
+
 
 #define HCR_RW		(1 << HCR_RW_SHIFT)
 
@@ -99,32 +101,28 @@
 
 
 /* Hyp Debug Configuration Register bits */
-#define MDCR_EL2_E2TB_MASK	(UL(0x3))
-#define MDCR_EL2_E2TB_SHIFT	(UL(24))
-#define MDCR_EL2_HPMFZS		(UL(1) << 36)
-#define MDCR_EL2_HPMFZO		(UL(1) << 29)
-#define MDCR_EL2_MTPME		(UL(1) << 28)
-#define MDCR_EL2_TDCC		(UL(1) << 27)
-#define MDCR_EL2_HCCD		(UL(1) << 23)
-#define MDCR_EL2_TTRF		(UL(1) << 19)
-#define MDCR_EL2_HPMD		(UL(1) << 17)
-#define MDCR_EL2_TPMS		(UL(1) << 14)
-#define MDCR_EL2_E2PB_MASK	(UL(0x3))
-#define MDCR_EL2_E2PB_SHIFT	(UL(12))
-#define MDCR_EL2_TDRA		(UL(1) << 11)
-#define MDCR_EL2_TDOSA		(UL(1) << 10)
-#define MDCR_EL2_TDA		(UL(1) << 9)
-#define MDCR_EL2_TDE		(UL(1) << 8)
-#define MDCR_EL2_HPME		(UL(1) << 7)
-#define MDCR_EL2_TPM		(UL(1) << 6)
-#define MDCR_EL2_TPMCR		(UL(1) << 5)
-#define MDCR_EL2_HPMN_MASK	(UL(0x1F))
-#define MDCR_EL2_RES0		(GENMASK(63, 37) |	\
-				 GENMASK(35, 30) |	\
-				 GENMASK(25, 24) |	\
-				 GENMASK(22, 20) |	\
-				 BIT(18) |		\
-				 GENMASK(16, 15))
+#define MDCR_EL2_E2TB_MASK	(0x3)
+#define MDCR_EL2_E2TB_SHIFT	(24)
+#define MDCR_EL2_HPMFZS		(1 << 36)
+#define MDCR_EL2_HPMFZO		(1 << 29)
+#define MDCR_EL2_MTPME		(1 << 28)
+#define MDCR_EL2_TDCC		(1 << 27)
+#define MDCR_EL2_HCCD		(1 << 23)
+#define MDCR_EL2_TTRF		(1 << 19)
+#define MDCR_EL2_HPMD		(1 << 17)
+#define MDCR_EL2_TPMS		(1 << 14)
+#define MDCR_EL2_E2PB_MASK	(0x3)
+#define MDCR_EL2_E2PB_SHIFT	(12)
+#define MDCR_EL2_TDRA		(1 << 11)
+#define MDCR_EL2_TDOSA		(1 << 10)
+#define MDCR_EL2_TDA		(1 << 9)
+#define MDCR_EL2_TDE		(1 << 8)
+#define MDCR_EL2_HPME		(1 << 7)
+#define MDCR_EL2_TPM		(1 << 6)
+#define MDCR_EL2_TPMCR		(1 << 5)
+#define MDCR_EL2_HPMN_MASK	(0x1F)
+#define MDCR_EL2_RES0		(GENMASK(63, 37) | GENMASK(35, 30) | \
+		GENMASK(25, 24) |	GENMASK(22, 20) |	BIT(18) |	GENMASK(16, 15))
 
 
 #endif /* ZEPHYR_INCLUDE_ARCH_ARM64_ZVM_ARM_H_ */
