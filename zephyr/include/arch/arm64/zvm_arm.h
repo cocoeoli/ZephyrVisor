@@ -99,5 +99,4 @@
 
 
 
-
 #endif /* ZEPHYR_INCLUDE_ARCH_ARM64_ZVM_ARM_H_ */
