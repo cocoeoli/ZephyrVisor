@@ -828,8 +828,8 @@ void z_arm64_mm_init(bool is_primary_core)
 	 * Only booting core setup up the page tables.
 	 */
 	if (is_primary_core) {
-		kernel_ptables.base_xlat_table = new_table();
-		setup_page_tables(&kernel_ptables);
+		kernel_ptables.base_xlat_table = new_table();				//获取新page_table地址
+		setup_page_tables(&kernel_ptables);							//映射page_table内存
 	}
 
 	/* currently only EL1 is supported */

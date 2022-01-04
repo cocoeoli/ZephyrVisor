@@ -103,8 +103,14 @@ _ASM_FILE_PROLOGUE
  * +------------------+------------------+-------------------------+
  */
 
-GDATA(_vector_table)
+GDATA(_vector_table)						//声明_vector_table为data段
 SECTION_SUBSEC_FUNC(exc_vector_table,_vector_table_section,_vector_table)
+/*
+ * 上面SECTION_SUBSEC_FUNC相当于：
+ * .section .exc_vector_table._vetcor_table_section
+ * .balign  4
+ * _vector_table:
+ */
 
 	/* The whole table must be 2K aligned */
 	.align 11

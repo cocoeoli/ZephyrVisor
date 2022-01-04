@@ -50,8 +50,8 @@ void z_arm64_prep_c(void)
 #ifdef CONFIG_XIP
 	z_data_copy();
 #endif
-	z_arm64_mm_init(true);
-	z_arm64_interrupt_init();
+	z_arm64_mm_init(true);					//进行一系列mmu初始化
+	z_arm64_interrupt_init();				//GIC中断初始化
 	z_cstart();
 
 	CODE_UNREACHABLE;
