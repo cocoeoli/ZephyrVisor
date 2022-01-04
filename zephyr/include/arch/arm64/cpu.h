@@ -111,6 +111,8 @@
 #define ID_AA64PFR0_ELX_MASK	(0xf)
 #define ID_AA64PFR0_SEL2_SHIFT	(36)
 #define ID_AA64PFR0_SEL2_MASK	(0xf)
+#define ID_AA64DFR0_TRBE_SHIFT  (44)
+
 
 /*
  * TODO: ACTLR is of class implementation defined. All core implementations
@@ -208,11 +210,105 @@
 #define ARM64_CPU_INIT_SIZE	L1_CACHE_BYTES
 
 /*
- * Add some macor fot EL2 init
+ * Below code is to add some macor fot EL2 init
  */
 #define ENDIAN_SET_EL2		0
 
 #define INIT_SCTLR_EL2_MMU_OFF (SCTLR_EL2_RES1 | ENDIAN_SET_EL2)
+
+/* ID registers */
+#define SYS_PMSIDR_EL1			sys_reg(3, 0, 9, 9, 7)
+#define SYS_PMSIDR_EL1_FE_SHIFT		0
+#define SYS_PMSIDR_EL1_FT_SHIFT		1
+#define SYS_PMSIDR_EL1_FL_SHIFT		2
+#define SYS_PMSIDR_EL1_ARCHINST_SHIFT	3
+#define SYS_PMSIDR_EL1_LDS_SHIFT	4
+#define SYS_PMSIDR_EL1_ERND_SHIFT	5
+#define SYS_PMSIDR_EL1_INTERVAL_SHIFT	8
+#define SYS_PMSIDR_EL1_INTERVAL_MASK	0xfUL
+#define SYS_PMSIDR_EL1_MAXSIZE_SHIFT	12
+#define SYS_PMSIDR_EL1_MAXSIZE_MASK	0xfUL
+#define SYS_PMSIDR_EL1_COUNTSIZE_SHIFT	16
+#define SYS_PMSIDR_EL1_COUNTSIZE_MASK	0xfUL
+
+#define SYS_PMBIDR_EL1			sys_reg(3, 0, 9, 10, 7)
+#define SYS_PMBIDR_EL1_ALIGN_SHIFT	0
+#define SYS_PMBIDR_EL1_ALIGN_MASK	0xfU
+#define SYS_PMBIDR_EL1_P_SHIFT		4
+#define SYS_PMBIDR_EL1_F_SHIFT		5
+
+/* Sampling controls */
+#define SYS_PMSCR_EL1			sys_reg(3, 0, 9, 9, 0)
+#define SYS_PMSCR_EL1_E0SPE_SHIFT	0
+#define SYS_PMSCR_EL1_E1SPE_SHIFT	1
+#define SYS_PMSCR_EL1_CX_SHIFT		3
+#define SYS_PMSCR_EL1_PA_SHIFT		4
+#define SYS_PMSCR_EL1_TS_SHIFT		5
+#define SYS_PMSCR_EL1_PCT_SHIFT		6
+
+#define SYS_PMSCR_EL2			sys_reg(3, 4, 9, 9, 0)
+#define SYS_PMSCR_EL2_E0HSPE_SHIFT	0
+#define SYS_PMSCR_EL2_E2SPE_SHIFT	1
+#define SYS_PMSCR_EL2_CX_SHIFT		3
+#define SYS_PMSCR_EL2_PA_SHIFT		4
+#define SYS_PMSCR_EL2_TS_SHIFT		5
+#define SYS_PMSCR_EL2_PCT_SHIFT		6
+
+#define SYS_PMSICR_EL1			sys_reg(3, 0, 9, 9, 2)
+
+#define SYS_PMSIRR_EL1			sys_reg(3, 0, 9, 9, 3)
+#define SYS_PMSIRR_EL1_RND_SHIFT	0
+#define SYS_PMSIRR_EL1_INTERVAL_SHIFT	8
+#define SYS_PMSIRR_EL1_INTERVAL_MASK	0xffffffUL
+
+/* TRBE Registers */
+#define SYS_TRBLIMITR_EL1		sys_reg(3, 0, 9, 11, 0)
+#define SYS_TRBPTR_EL1			sys_reg(3, 0, 9, 11, 1)
+#define SYS_TRBBASER_EL1		sys_reg(3, 0, 9, 11, 2)
+#define SYS_TRBSR_EL1			sys_reg(3, 0, 9, 11, 3)
+#define SYS_TRBMAR_EL1			sys_reg(3, 0, 9, 11, 4)
+#define SYS_TRBTRG_EL1			sys_reg(3, 0, 9, 11, 6)
+#define SYS_TRBIDR_EL1			sys_reg(3, 0, 9, 11, 7)
+
+#define TRBLIMITR_LIMIT_MASK		GENMASK_ULL(51, 0)
+#define TRBLIMITR_LIMIT_SHIFT		12
+#define TRBLIMITR_NVM			BIT(5)
+#define TRBLIMITR_TRIG_MODE_MASK	GENMASK(1, 0)
+#define TRBLIMITR_TRIG_MODE_SHIFT	3
+#define TRBLIMITR_FILL_MODE_MASK	GENMASK(1, 0)
+#define TRBLIMITR_FILL_MODE_SHIFT	1
+#define TRBLIMITR_ENABLE		BIT(0)
+#define TRBPTR_PTR_MASK			GENMASK_ULL(63, 0)
+#define TRBPTR_PTR_SHIFT		0
+#define TRBBASER_BASE_MASK		GENMASK_ULL(51, 0)
+#define TRBBASER_BASE_SHIFT		12
+#define TRBSR_EC_MASK			GENMASK(5, 0)
+#define TRBSR_EC_SHIFT			26
+#define TRBSR_IRQ			BIT(22)
+#define TRBSR_TRG			BIT(21)
+#define TRBSR_WRAP			BIT(20)
+#define TRBSR_ABORT			BIT(18)
+#define TRBSR_STOP			BIT(17)
+#define TRBSR_MSS_MASK			GENMASK(15, 0)
+#define TRBSR_MSS_SHIFT			0
+#define TRBSR_BSC_MASK			GENMASK(5, 0)
+#define TRBSR_BSC_SHIFT			0
+#define TRBSR_FSC_MASK			GENMASK(5, 0)
+#define TRBSR_FSC_SHIFT			0
+#define TRBMAR_SHARE_MASK		GENMASK(1, 0)
+#define TRBMAR_SHARE_SHIFT		8
+#define TRBMAR_OUTER_MASK		GENMASK(3, 0)
+#define TRBMAR_OUTER_SHIFT		4
+#define TRBMAR_INNER_MASK		GENMASK(3, 0)
+#define TRBMAR_INNER_SHIFT		0
+#define TRBTRG_TRG_MASK			GENMASK(31, 0)
+#define TRBTRG_TRG_SHIFT		0
+#define TRBIDR_FLAG			BIT(5)
+#define TRBIDR_PROG			BIT(4)
+#define TRBIDR_ALIGN_MASK		GENMASK(3, 0)
+#define TRBIDR_ALIGN_SHIFT		0
+
+
 
 #endif /* ZEPHYR_INCLUDE_ARCH_ARM64_CPU_H_ */
 

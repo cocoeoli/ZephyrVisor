@@ -31,14 +31,14 @@
  * EL2.
  */
 .macro __init_el2_timers
-	mov	x0, #3				// Enable EL1 physical timers
+	mov	x0, #3					// Enable EL1 physical timers
 	msr	cnthctl_el2, x0
 	msr	cntvoff_el2, xzr		// Clear virtual offset
 .endm
 
 .macro __init_el2_debug
 	mrs	x1, id_aa64dfr0_el1
-	sbfx	x0, x1, #ID_AA64DFR0_PMUVER_SHIFT, #4
+	sbfx	x0, x1, #ID_AA64PFR0_EL2_SHIFT, #4
 	cmp	x0, #1
 	b.lt	.Lskip_pmu_\@			// Skip if no PMU present
 	mrs	x0, pmcr_el0			// Disable debug access traps
@@ -47,7 +47,7 @@
 	csel	x2, xzr, x0, lt			// all PMU counters from EL1
 
 	/* Statistical profiling */
-	ubfx	x0, x1, #ID_AA64DFR0_PMSVER_SHIFT, #4
+	ubfx	x0, x1, #ID_AA64PFR0_EL2_SHIFT, #4
 	cbz	x0, .Lskip_spe_\@		// Skip if SPE not present
 
 	mrs_s	x0, SYS_PMBIDR_EL1              // If SPE available at EL2,
