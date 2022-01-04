@@ -71,12 +71,8 @@ SECTION_SUBSEC_FUNC(TEXT,_reset_section,__reset_prep_c)
 	msr		hrc_el2,	x0
 	isb
 
-	/**
-	 * Initialize EL2 registers to sane values. This should be called early on all
-	 * cores that were booted in EL2. Note that everything gets initialised as
-	 * if VHE was not evailable. The kernel context will be upgraded to VHE
-	 * if possible later on in the boot process
-	 * Regs: x0, x1 and x2 are clobbered.
+	/*
+	 * Initialize EL2 registers to sane values. This should be called early on all cores that were booted in EL2.
 	 */
 	__init_el2_sctlr
 	__init_el2_timers
@@ -91,7 +87,7 @@ SECTION_SUBSEC_FUNC(TEXT,_reset_section,__reset_prep_c)
 	__init_el2_fgt
 	__init_el2_nvhe_prepare_eret
 
-
+	
 
 	/* Disable alignment fault checking */
 	mrs	x0, sctlr_el2
