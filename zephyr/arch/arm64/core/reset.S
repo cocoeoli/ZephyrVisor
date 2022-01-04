@@ -19,7 +19,7 @@ _ASM_FILE_PROLOGUE
  *       - x23, x24 and x25 must be preserved
  */
 
-WTEXT(z_arm64_el3_plat_prep_c)
+WTEXT(z_arm64_el3_plat_prep_c)					//宏定义
 SECTION_FUNC(TEXT,z_arm64_el3_plat_prep_c)
 	ret
 
@@ -33,12 +33,22 @@ SECTION_FUNC(TEXT,z_arm64_el1_plat_prep_c)
 
 /*
  * Set the minimum necessary to safely call C code
+ * edit the __reset_prep_c, make it run in EL2
  */
 
 GTEXT(__reset_prep_c)
 SECTION_SUBSEC_FUNC(TEXT,_reset_section,__reset_prep_c)
 	/* return address: x23 */
 	mov	x23, x30
+
+	/*
+	 * If zvm protected mode is initialized, all CPUs must have been booted
+	 * in EL2. Avoid checking __boot_cpu_mode as CPUs now come up in EL1.
+	 */
+
+	/*Call hvc */
+	/****pretend it move to el2****/
+	/*xiong end */
 
 	switch_el x0, 3f, 2f, 1f
 3:
@@ -54,6 +64,35 @@ SECTION_SUBSEC_FUNC(TEXT,_reset_section,__reset_prep_c)
 
 	b	out
 2:
+	/*
+	 * Initialize hcr_el2 register, fot EL2 trap
+	*/
+	mov_q	x0,	HCR_HOST_NVHE_FLAGS
+	msr		hrc_el2,	x0
+	isb
+
+	/**
+	 * Initialize EL2 registers to sane values. This should be called early on all
+	 * cores that were booted in EL2. Note that everything gets initialised as
+	 * if VHE was not evailable. The kernel context will be upgraded to VHE
+	 * if possible later on in the boot process
+	 * Regs: x0, x1 and x2 are clobbered.
+	 */
+	__init_el2_sctlr
+	__init_el2_timers
+	__init_el2_debug
+	__init_el2_lor
+	__init_el2_stage2
+	__init_el2_gicv3
+	__init_el2_hstr
+	__init_el2_nvhe_idregs
+	__init_el2_nvhe_cptr
+	__init_el2_nvhe_sve
+	__init_el2_fgt
+	__init_el2_nvhe_prepare_eret
+
+
+
 	/* Disable alignment fault checking */
 	mrs	x0, sctlr_el2
 	bic	x0, x0, SCTLR_A_BIT

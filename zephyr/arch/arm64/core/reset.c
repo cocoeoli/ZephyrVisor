@@ -31,6 +31,7 @@ void __weak z_arm64_el1_plat_init(void)
 
 void z_arm64_el_highest_init(void)
 {
+	//判断是否有高特权级别部署-这里无
 	if (is_el_highest_implemented()) {
 		write_cntfrq_el0(CONFIG_SYS_CLOCK_HW_CYCLES_PER_SEC);
 	}

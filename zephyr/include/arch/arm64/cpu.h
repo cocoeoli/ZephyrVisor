@@ -207,4 +207,22 @@
 #define L1_CACHE_BYTES		BIT(L1_CACHE_SHIFT)
 #define ARM64_CPU_INIT_SIZE	L1_CACHE_BYTES
 
+/*
+ * Add some macor fot EL2 init
+ */
+#define ENDIAN_SET_EL2		0
+
+#define INIT_SCTLR_EL2_MMU_OFF (SCTLR_EL2_RES1 | ENDIAN_SET_EL2)
+
 #endif /* ZEPHYR_INCLUDE_ARCH_ARM64_CPU_H_ */
+
+
+
+
+
+
+
+
+
+
+
