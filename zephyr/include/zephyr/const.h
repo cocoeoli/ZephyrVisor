@@ -20,7 +20,7 @@
  */
 #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
 
-
+/*  This macro is defined in util.h
 #define GENMASK_INPUT_CHECK(h, l) \
 	(BUILD_BUG_ON_ZERO(__builtin_choose_expr( \
 		__is_constexpr((l) > (h)), (l) > (h), 0)))
@@ -33,6 +33,6 @@
 #define __GENMASK(h, l) (((~0) - (1 << (l)) + 1) & (~0 >> (32 - 1 - (h))))
 
 #define GENMASK(h, l) (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
-
+*/
 
 #endif /* _ZEPHYR_CONST_H */
